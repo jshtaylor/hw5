@@ -6,6 +6,9 @@ using namespace std;
 #define nodekey_t unsigned long long int // nodekey is an unsigned long ling int
 #define INVALID_NODE_KEY ULLONG_MAX // invalid node key to mean UULONG_MAX which is 18446744073709551615
 #include <unordered_map>
+#include <string>
+#include <set>
+#include <vector>
 //every graph edge instance should be created on the heap
 struct GraphEdge{
     nodekey_t from;
@@ -38,15 +41,13 @@ class Graph{
    set<const GraphEdge*> GetOutwardEdgesFrom(nodekey_t nodekey) const;
    set<nodekey_t> GetNodes() const; // gets all nodes in graph
    
-   size_t size() const; // num edges
+   size_t Size() const; // num edges
    size_t Order() const; // num nodes
 
    private:
    set<nodekey_t> nodes;
    set<const GraphEdge*> edges;
-   unordered_map<nodekey_t, vector<const GraphEdge*>> adjacency_list;
-
-
+   unordered_map<nodekey_t, vector<const GraphEdge*>> adj_list;
 
 };
 
