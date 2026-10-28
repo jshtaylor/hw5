@@ -1,0 +1,5 @@
+All:
+    g++ -wall -g Graph.cpp GraphTests.cpp -o graph-tests
+
+Clean:
+    ad rm graph-tests
