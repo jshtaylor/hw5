@@ -3,6 +3,10 @@
 #include "BetterPriorityQueue.h"
 
 
+// Time complexity is O(V^2 +E⋅V).
+//this is dependenet on V and E which is number of vertices (node) and number of edges, the main reasons is because of
+// populating distances is O(v log v), and because my update is written as O(V)
+//there are ways to optimize this but I haven't
 
 int dijkstra(nodekey_t start, nodekey_t end, const Graph *g){
 
