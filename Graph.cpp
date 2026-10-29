@@ -120,3 +120,5 @@ size_t Graph::Size() const{
 size_t Graph::Order() const{
     return nodes.size();
 }
+
+
