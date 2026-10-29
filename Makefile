@@ -1,6 +1,6 @@
 all:
-	g++ -Wall -g -O3 Graph.cpp GraphTests.cpp -o graph-tests
-	g++ -Wall -g -O3 Graph.cpp BetterPriorityQueue.cpp BPQTests.cpp -o bpq-tests
+	g++ -Wall -g -O3 Graph.cpp GraphTestsStarter.cpp -o graph-tests
+	g++ -Wall -g -O3 Graph.cpp BPQNode.cpp BPQTestsStarter.cpp -o bpq-tests
 
 clean:
 	-rm -f graph-tests bpq-tests
