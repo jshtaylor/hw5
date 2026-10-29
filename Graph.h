@@ -46,6 +46,7 @@ class Graph{
 
    private:
    set<nodekey_t> nodes;
+   vector<nodekey_t> nodeOrder;
    set<const GraphEdge*> edges;
    unordered_map<nodekey_t, vector<const GraphEdge*>> adj_list;
 

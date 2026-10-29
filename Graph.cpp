@@ -3,6 +3,7 @@
 #include <vector>
 #include <set>
 #include <climits>
+#include <algorithm>
 
 using namespace std;
 
@@ -21,8 +22,11 @@ Graph::~Graph(){
 //duplicate node keys or a node key that doesn't exist in the graph
 
 void Graph::AddNode(nodekey_t key){
+    if(IsPresent(key)){
+        throw invalid_argument("Duplicate key's are not allowed");
+    }
     Graph::nodes.insert(key);
-
+    Graph:: nodeOrder.push_back(key);
 }
 
 //both of these will throw an invalid_argument exception if invalid inputs are given
@@ -32,6 +36,17 @@ const GraphEdge* Graph::AddEdge(nodekey_t fromNodeKey, nodekey_t toNodeKey, unsi
     if(!IsPresent(fromNodeKey) || !IsPresent(toNodeKey)){
         throw invalid_argument("One or both nodes do not exist in the graph");
     }
+    auto it = adj_list.find(fromNodeKey); // this whole thing is to check for duplicates
+    if(it != adj_list.end()){ // checks to see if the from key is in the hash map, if not returns adj_list.end()
+        auto edgeIt = std::find_if(it->second.begin(), it->second.end(), // grabs the vector from the hashmap
+        [&toNodeKey](const GraphEdge* edge) {
+            return edge->to == toNodeKey; // Replace 'to' with your struct's destination member name
+        });
+
+    if (edgeIt != it->second.end()) {
+        throw std::invalid_argument("Cannot input duplicate edges");
+    }
+}
     
     GraphEdge *edge = new GraphEdge{fromNodeKey, toNodeKey, weight}; // creates new edge struct as a pointer
     edges.insert(edge);// adds the edge to the set of edges
@@ -49,9 +64,11 @@ bool Graph::IsPresent(nodekey_t key){
 //these are not actually used except for testing
 string Graph::NodesToString() const {
     string str = "[";
-    for(nodekey_t greg:nodes){
+    size_t count = 0;
+    for(nodekey_t greg:nodeOrder){
+        count ++;
         str +="(" +  to_string(greg) + ")";
-        if(nodes.find(greg) != nodes.end()){
+        if(count != nodes.size()){
             str += ", ";
         }
     }
@@ -62,11 +79,16 @@ string Graph::NodesToString() const {
 
 
 string Graph::EdgesToString() const {
-    string str = "[ ";
+    string str = "[";
+    size_t count = 0;
     for(const GraphEdge* jon : edges){
-        str += "from: " + to_string(jon ->from) + "to: " + to_string(jon ->to) + "Weight: " + to_string(jon ->weight) + ", ";
+        count ++;
+        str += "((" + to_string(jon ->from) + ")->(" + to_string(jon ->to) + ") w:" + to_string(jon ->weight) + ")";
+        if(count != edges.size()){
+            str += ", ";
+        }
     }
-    str +=" ]";
+    str +="]";
     cout << str << "\n";
     return str;
 }
